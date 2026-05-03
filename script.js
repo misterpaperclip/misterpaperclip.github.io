@@ -12,6 +12,12 @@ setTheme(savedTheme);
 themeToggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     themeMenu.classList.toggle('active');
+    
+    // Add robot sound effect (visual feedback)
+    themeToggleBtn.style.transform = 'scale(0.9) rotate(180deg)';
+    setTimeout(() => {
+        themeToggleBtn.style.transform = '';
+    }, 200);
 });
 
 // Close theme menu when clicking outside
@@ -26,7 +32,13 @@ themeOptions.forEach(option => {
     option.addEventListener('click', () => {
         const theme = option.getAttribute('data-theme');
         setTheme(theme);
-        themeMenu.classList.remove('active');
+        
+        // Add selection animation
+        option.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+            option.style.transform = '';
+            themeMenu.classList.remove('active');
+        }, 300);
     });
 });
 
@@ -50,6 +62,12 @@ function setTheme(theme) {
     
     // Save theme preference
     localStorage.setItem('theme', theme);
+    
+    // Trigger theme change animation
+    document.body.style.animation = 'none';
+    setTimeout(() => {
+        document.body.style.animation = '';
+    }, 10);
 }
 
 // Smooth scrolling for navigation links
@@ -66,7 +84,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar scroll effect
+// Navbar scroll effect with robot theme
 let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
 
@@ -74,9 +92,9 @@ window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     
     if (currentScroll <= 0) {
-        navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+        navbar.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px var(--neon-glow)';
     } else {
-        navbar.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+        navbar.style.boxShadow = '0 0 30px rgba(0, 0, 0, 0.7), 0 0 60px var(--neon-glow)';
     }
     
     lastScroll = currentScroll;
@@ -97,11 +115,11 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe service cards
+// Observe service cards with stagger effect
 document.querySelectorAll('.service-card').forEach((card, index) => {
     card.style.opacity = '0';
     card.style.transform = 'translateY(30px)';
-    card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+    card.style.transition = `all 0.6s ease ${index * 0.15}s`;
     observer.observe(card);
 });
 
@@ -126,3 +144,232 @@ function highlightNavigation() {
 }
 
 window.addEventListener('scroll', highlightNavigation);
+
+// Robot Logo Animation - Interactive
+const robotHead = document.querySelector('.robot-head');
+const robotEyes = document.querySelectorAll('.eye');
+
+if (robotHead) {
+    robotHead.addEventListener('mouseenter', () => {
+        robotEyes.forEach(eye => {
+            eye.style.animation = 'none';
+            eye.style.width = '10px';
+            eye.style.height = '10px';
+        });
+    });
+
+    robotHead.addEventListener('mouseleave', () => {
+        robotEyes.forEach(eye => {
+            eye.style.animation = 'eyeBlink 3s ease-in-out infinite';
+            eye.style.width = '8px';
+            eye.style.height = '8px';
+        });
+    });
+}
+
+// Terminal typing effect
+const terminalLines = document.querySelectorAll('.terminal-line');
+terminalLines.forEach((line, index) => {
+    line.style.opacity = '0';
+    setTimeout(() => {
+        line.style.opacity = '1';
+        line.style.animation = 'typewriter 0.5s steps(30)';
+    }, index * 300);
+});
+
+// Service card hover effects - Enhanced
+document.querySelectorAll('.service-card').forEach(card => {
+    const statusLed = card.querySelector('.status-led');
+    const moduleId = card.querySelector('.module-id');
+    
+    card.addEventListener('mouseenter', () => {
+        if (statusLed) {
+            statusLed.style.animation = 'ledBlink 0.3s ease-in-out infinite';
+        }
+        if (moduleId) {
+            moduleId.style.letterSpacing = '3px';
+        }
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        if (statusLed) {
+            statusLed.style.animation = 'ledBlink 2s ease-in-out infinite';
+        }
+        if (moduleId) {
+            moduleId.style.letterSpacing = '2px';
+        }
+    });
+});
+
+// Glitch effect on hover for titles
+const glitchElements = document.querySelectorAll('.glitch');
+glitchElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        element.style.animation = 'glitch 0.3s infinite';
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        element.style.animation = 'glitch 5s infinite';
+    });
+});
+
+// CTA Button - Robot activation effect
+const ctaButton = document.querySelector('.cta-button');
+if (ctaButton) {
+    ctaButton.addEventListener('click', (e) => {
+        // Create ripple effect
+        const ripple = document.createElement('span');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+        ripple.style.width = '20px';
+        ripple.style.height = '20px';
+        ripple.style.animation = 'ripple 0.6s ease-out';
+        
+        const rect = ctaButton.getBoundingClientRect();
+        ripple.style.left = (e.clientX - rect.left - 10) + 'px';
+        ripple.style.top = (e.clientY - rect.top - 10) + 'px';
+        
+        ctaButton.appendChild(ripple);
+        
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    });
+}
+
+// Add ripple animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            width: 100px;
+            height: 100px;
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Contact button pulse effect
+const contactButtons = document.querySelectorAll('.contact-button');
+contactButtons.forEach(button => {
+    button.addEventListener('mouseenter', () => {
+        const pulse = button.querySelector('.button-pulse');
+        if (pulse) {
+            pulse.style.animation = 'buttonPulse 0.5s ease-out infinite';
+        }
+    });
+    
+    button.addEventListener('mouseleave', () => {
+        const pulse = button.querySelector('.button-pulse');
+        if (pulse) {
+            pulse.style.animation = 'buttonPulse 2s ease-out infinite';
+        }
+    });
+});
+
+// Random circuit line animation
+function createCircuitAnimation() {
+    const circuitLines = document.querySelector('.circuit-lines');
+    if (circuitLines) {
+        setInterval(() => {
+            const randomOpacity = 0.03 + Math.random() * 0.05;
+            circuitLines.style.opacity = randomOpacity;
+        }, 3000);
+    }
+}
+
+createCircuitAnimation();
+
+// Floating gears - Mouse parallax effect
+document.addEventListener('mousemove', (e) => {
+    const gears = document.querySelectorAll('.gear');
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+    
+    gears.forEach((gear, index) => {
+        const speed = (index + 1) * 10;
+        const x = (mouseX - 0.5) * speed;
+        const y = (mouseY - 0.5) * speed;
+        
+        gear.style.transform = `translate(${x}px, ${y}px)`;
+    });
+});
+
+// Status indicators animation
+const statusDots = document.querySelectorAll('.status-dot');
+statusDots.forEach((dot, index) => {
+    setInterval(() => {
+        dot.style.transform = 'scale(1.3)';
+        setTimeout(() => {
+            dot.style.transform = 'scale(1)';
+        }, 200);
+    }, 2000 + (index * 500));
+});
+
+// Signal bars - Interactive
+const signalBars = document.querySelectorAll('.signal-bar');
+signalBars.forEach((bar, index) => {
+    bar.addEventListener('mouseenter', () => {
+        signalBars.forEach((b, i) => {
+            if (i <= index) {
+                b.style.opacity = '1';
+                b.style.transform = 'scaleY(1.2)';
+            }
+        });
+    });
+    
+    bar.addEventListener('mouseleave', () => {
+        signalBars.forEach(b => {
+            b.style.opacity = '';
+            b.style.transform = '';
+        });
+    });
+});
+
+// Easter egg - Konami code for special robot mode
+let konamiCode = [];
+const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+document.addEventListener('keydown', (e) => {
+    konamiCode.push(e.key);
+    konamiCode = konamiCode.slice(-10);
+    
+    if (konamiCode.join(',') === konamiSequence.join(',')) {
+        activateRobotMode();
+    }
+});
+
+function activateRobotMode() {
+    // Special robot activation
+    document.body.style.animation = 'glitch 0.5s infinite';
+    
+    setTimeout(() => {
+        document.body.style.animation = '';
+        alert('🤖 ROBOT MODE ACTIVATED! 🤖\nAll systems operational!');
+    }, 2000);
+}
+
+// Console message for developers
+console.log('%c🤖 ROBOT SYSTEM INITIALIZED 🤖', 'color: #3b82f6; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #3b82f6;');
+console.log('%cWelcome to PaperClip\'s Robot Portfolio!', 'color: #10b981; font-size: 14px;');
+console.log('%cTry the Konami code for a surprise! ⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️BA', 'color: #fbbf24; font-size: 12px;');
+
+// Performance optimization - Reduce animations on low-end devices
+if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
+    document.documentElement.style.setProperty('--animation-speed', '0.5');
+}
+
+// Initialize all animations on page load
+window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+    
+    // Trigger initial animations
+    setTimeout(() => {
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent) {
+            heroContent.style.opacity = '1';
+        }
+    }, 100);
+});
