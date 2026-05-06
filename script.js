@@ -1,22 +1,24 @@
-// Theme Management
+// Tokyo Ghoul Theme Management
 const themeToggleBtn = document.querySelector('.theme-toggle-btn');
 const themeMenu = document.querySelector('.theme-menu');
 const themeOptions = document.querySelectorAll('.theme-option');
 const html = document.documentElement;
 
-// Load saved theme or default to gray
-const savedTheme = localStorage.getItem('theme') || 'gray';
+// Load saved theme or default to gray (Kaneki theme)
+const savedTheme = localStorage.getItem('ghoul-theme') || 'gray';
 setTheme(savedTheme);
 
-// Toggle theme menu
+// Toggle theme menu - Kakugan activation
 themeToggleBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     themeMenu.classList.toggle('active');
     
-    // Add robot sound effect (visual feedback)
+    // Add kakugan activation effect (visual feedback)
     themeToggleBtn.style.transform = 'scale(0.9) rotate(180deg)';
+    themeToggleBtn.style.boxShadow = '0 0 60px var(--neon-glow), 0 0 100px var(--neon-glow)';
     setTimeout(() => {
         themeToggleBtn.style.transform = '';
+        themeToggleBtn.style.boxShadow = '';
     }, 200);
 });
 
@@ -27,16 +29,18 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Theme option selection
+// Theme option selection - Kagune type selection
 themeOptions.forEach(option => {
     option.addEventListener('click', () => {
         const theme = option.getAttribute('data-theme');
         setTheme(theme);
         
-        // Add selection animation
+        // Add kagune activation animation
         option.style.transform = 'scale(1.1)';
+        option.style.boxShadow = '0 0 30px var(--neon-glow)';
         setTimeout(() => {
             option.style.transform = '';
+            option.style.boxShadow = '';
             themeMenu.classList.remove('active');
         }, 300);
     });
@@ -61,7 +65,7 @@ function setTheme(theme) {
     }
     
     // Save theme preference
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('ghoul-theme', theme);
     
     // Trigger theme change animation
     document.body.style.animation = 'none';
@@ -328,7 +332,7 @@ signalBars.forEach((bar, index) => {
     });
 });
 
-// Easter egg - Konami code for special robot mode
+// Easter egg - Konami code for special kakuja mode
 let konamiCode = [];
 const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
@@ -337,24 +341,27 @@ document.addEventListener('keydown', (e) => {
     konamiCode = konamiCode.slice(-10);
     
     if (konamiCode.join(',') === konamiSequence.join(',')) {
-        activateRobotMode();
+        activateKakujaMode();
     }
 });
 
-function activateRobotMode() {
-    // Special robot activation
+function activateKakujaMode() {
+    // Special kakuja activation
     document.body.style.animation = 'glitch 0.5s infinite';
+    document.body.style.filter = 'hue-rotate(180deg)';
     
     setTimeout(() => {
         document.body.style.animation = '';
-        alert('🤖 ROBOT MODE ACTIVATED! 🤖\nAll systems operational!');
+        document.body.style.filter = '';
+        alert('👁️ KAKUJA MODE ACTIVATED! 👁️\nRC Cells overflowing!\n"The world is wrong... or maybe I am."');
     }, 2000);
 }
 
-// Console message for developers
-console.log('%c🤖 ROBOT SYSTEM INITIALIZED 🤖', 'color: #3b82f6; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #3b82f6;');
-console.log('%cWelcome to PaperClip\'s Robot Portfolio!', 'color: #10b981; font-size: 14px;');
-console.log('%cTry the Konami code for a surprise! ⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️BA', 'color: #fbbf24; font-size: 12px;');
+// Console message for developers - Tokyo Ghoul themed
+console.log('%c👁️ GHOUL SYSTEM AWAKENED 👁️', 'color: #dc2626; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #dc2626;');
+console.log('%cWelcome to PaperClip\'s Tokyo Ghoul Portfolio!', 'color: #ef4444; font-size: 14px;');
+console.log('%c"I\'m not the protagonist of a novel or anything. I\'m just a college student who likes to read..."', 'color: #fca5a5; font-size: 12px; font-style: italic;');
+console.log('%cTry the Konami code for Kakuja mode! ⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️BA', 'color: #ffffff; font-size: 12px;');
 
 // Performance optimization - Reduce animations on low-end devices
 if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {

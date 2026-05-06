@@ -1004,7 +1004,7 @@ body {
     width: 8px;
     background: var(--primary-color);
     border-radius: 4px;
-    box-shadow: 0 0 10px var(--neon-glow);
+    box-shadow: 0 0 8px var(--neon-glow);
 }
 
 .signal-bar:nth-child(1) {
